@@ -59,6 +59,10 @@ struct Runbook {
 
 #[derive(Debug, Serialize, Deserialize, JsonSchema, Clone)]
 #[serde(untagged)]
+#[schemars(description = "Steps to run in runbook.\n\
+        The steps are invoked in order from top to bottom.\n\
+        Any return values are recorded for each step.\n\
+        When steps: is array, recorded values can be retrieved with `{{ steps[*].* }}`.")]
 enum Steps {
     AsMap(Map<String, Value>),
     AsList(Vec<Map<String, Value>>),
