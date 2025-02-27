@@ -37,7 +37,7 @@ struct Runbook {
 
     #[serde(default)]
     #[schemars(description = "Enable debug output for runn.")]
-    debug: bool,
+    debug: Value,
 
     #[serde(default, skip_serializing_if = "Option::is_none")]
     #[schemars(description = "Interval between steps.")]
