@@ -52,7 +52,7 @@ struct Runbook {
     #[serde(default)]
     trace: bool,
 
-    steps: Steps,
+    steps: Option<Steps>,
 
     concurrency: Option<Concurrency>,
 }
