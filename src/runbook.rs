@@ -76,3 +76,24 @@ pub fn generate_schema() -> String {
     let schema = schemars::schema_for!(Runbook);
     serde_json::to_string_pretty(&schema).unwrap()
 }
+#[cfg(test)]
+mod tests {
+    use glob::glob;
+
+    use super::*;
+    use std::fs;
+
+    #[test]
+    fn test_parse_example_books() {
+        for path in glob("external/runn/testdata/book/*.yml").unwrap().flatten() {
+            let yml = fs::read_to_string(&path).unwrap();
+            let result = serde_yaml::from_str::<Runbook>(&yml);
+            assert!(
+                result.is_ok(),
+                "Failed to parse {}: {:?}",
+                path.display(),
+                result.err()
+            );
+        }
+    }
+}
