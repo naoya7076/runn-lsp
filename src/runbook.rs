@@ -35,9 +35,6 @@ struct Runbook {
     #[schemars(description = "List of secret var names to be masked.")]
     secrets: Vec<String>,
 
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
-    steps: Vec<Map<String, Value>>,
-
     #[serde(default)]
     #[schemars(description = "Enable debug output for runn.")]
     debug: bool,
@@ -56,15 +53,17 @@ struct Runbook {
 
     #[serde(default)]
     trace: bool,
+
+    steps: Steps,
+
 }
 
-// #[derive(Debug, Serialize, Deserialize, JsonSchema, Clone)]
-// #[serde(untagged)]
-// enum Loop {
-//     Integer(u64),
-//     String(String),
-//     Mapping(Map<String, Value>),
-// }
+#[derive(Debug, Serialize, Deserialize, JsonSchema, Clone)]
+#[serde(untagged)]
+enum Steps {
+    AsMap(Map<String, Value>),
+    AsList(Vec<Map<String, Value>>),
+}
 
 #[derive(Debug, Serialize, Deserialize, JsonSchema, Clone)]
 #[serde(untagged)]
