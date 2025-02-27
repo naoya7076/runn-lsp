@@ -50,6 +50,10 @@ struct Runbook {
     force: bool,
 
     #[serde(default)]
+    #[schemars(
+        description = "Add tokens for tracing to headers and queries by default.\n\
+        Currently, HTTP runner, gRPC runner and DB runner are supported."
+    )]
     trace: bool,
 
     steps: Option<Steps>,
@@ -70,6 +74,9 @@ enum Steps {
 
 #[derive(Debug, Serialize, Deserialize, JsonSchema, Clone)]
 #[serde(untagged)]
+#[schemars(
+    description = "Runbooks with the same key are assured of a single run at the same time."
+)]
 enum Concurrency {
     Single(String),
     Multiple(Vec<String>),
