@@ -46,8 +46,6 @@ struct Runbook {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     r#if: Option<String>,
 
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
-    concurrency: Vec<String>,
     #[serde(default)]
     force: bool,
 
@@ -56,6 +54,7 @@ struct Runbook {
 
     steps: Steps,
 
+    concurrency: Option<Concurrency>,
 }
 
 #[derive(Debug, Serialize, Deserialize, JsonSchema, Clone)]
