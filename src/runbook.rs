@@ -4,7 +4,7 @@ use serde_json::{Map, Value};
 
 #[derive(Debug, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "camelCase")]
-struct Runbook {
+pub struct Runbook {
     #[serde(default, skip_serializing_if = "String::is_empty")]
     #[schemars(description = "Description of runbook.")]
     desc: String,
@@ -87,6 +87,11 @@ pub fn generate_schema() -> String {
     let schema = schemars::schema_for!(Runbook);
     serde_json::to_string_pretty(&schema).unwrap()
 }
+
+pub fn parse_yaml(yaml: &str) -> Result<Runbook, serde_yaml::Error> {
+    serde_yaml::from_str(yaml)
+}
+
 #[cfg(test)]
 mod tests {
     use glob::glob;
@@ -95,10 +100,10 @@ mod tests {
     use std::fs;
 
     #[test]
-    fn test_parse_example_books() {
+    fn test_parse_runn_yaml() {
         for path in glob("external/runn/testdata/book/*.yml").unwrap().flatten() {
             let yml = fs::read_to_string(&path).unwrap();
-            let result = serde_yaml::from_str::<Runbook>(&yml);
+            let result = parse_yaml(&yml);
             assert!(
                 result.is_ok(),
                 "Failed to parse {}: {:?}",
