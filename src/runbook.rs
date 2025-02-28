@@ -1,3 +1,6 @@
+use std::fs;
+use std::path::Path;
+
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
@@ -88,28 +91,34 @@ pub fn generate_schema() -> String {
     serde_json::to_string_pretty(&schema).unwrap()
 }
 
-pub fn parse_yaml(yaml: &str) -> Result<Runbook, serde_yaml::Error> {
+fn parse_yaml(yaml: &str) -> Result<Runbook, serde_yaml::Error> {
     serde_yaml::from_str(yaml)
+}
+
+pub fn parse_yaml_from_file<P: AsRef<Path>>(
+    path: P,
+) -> Result<Runbook, Box<dyn std::error::Error>> {
+    let yaml = fs::read_to_string(path)?;
+    let runbook = parse_yaml(&yaml)?;
+    Ok(runbook)
 }
 
 #[cfg(test)]
 mod tests {
-    use glob::glob;
-
     use super::*;
-    use std::fs;
+    use glob::glob;
 
     #[test]
     fn test_parse_runn_yaml() {
         for path in glob("external/runn/testdata/book/*.yml").unwrap().flatten() {
-            let yml = fs::read_to_string(&path).unwrap();
-            let result = parse_yaml(&yml);
+            let result = parse_yaml_from_file(&path);
             assert!(
                 result.is_ok(),
                 "Failed to parse {}: {:?}",
                 path.display(),
                 result.err()
             );
+            println!("Successfully parsed: {:?}", path);
         }
     }
 }
