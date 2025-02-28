@@ -50,6 +50,11 @@ pub struct Runbook {
     r#if: Option<String>,
 
     #[serde(default)]
+    #[schemars(description = "Skip all `test:` sections")]
+    skip_test: bool,
+
+    #[serde(default)]
+    #[schemars(description = "Force all steps to run.")]
     force: bool,
 
     #[serde(default)]
