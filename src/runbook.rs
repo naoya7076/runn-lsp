@@ -66,6 +66,8 @@ pub struct Runbook {
 
     steps: Option<Steps>,
 
+    r#loop: Option<Loop>,
+
     concurrency: Option<Concurrency>,
 }
 
@@ -78,6 +80,24 @@ pub struct Runbook {
 enum Steps {
     AsMap(Map<String, Value>),
     AsList(Vec<Map<String, Value>>),
+}
+
+#[derive(Debug, Deserialize, Serialize, JsonSchema)]
+#[serde(untagged)]
+#[schemars(description = "Loop setting for runbook.")]
+pub enum Loop {
+    Scalar(u32),
+    Mapping {
+        count: Value,
+        #[serde(default)]
+        until: Option<String>,
+        #[serde(default)]
+        interval: Option<String>,
+        #[serde(default)]
+        min_interval: Option<f64>,
+        #[serde(default)]
+        max_interval: Option<f64>,
+    },
 }
 
 #[derive(Debug, Serialize, Deserialize, JsonSchema, Clone)]
