@@ -6,6 +6,24 @@
 	"engines": {
 		"vscode": "^1.85.0"
 	},
+	"activationEvents": [
+		"onLanguage:yaml"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "yaml",
+				"aliases": [
+					"YAML",
+					"yaml"
+				],
+				"extensions": [
+					".yaml",
+					".yml"
+				]
+			}
+		]
+	},
 	"packageManager": "pnpm@10.5.2",
 	"dependencies": {
 		"vscode-languageclient": "9.0.1"
@@ -15,5 +33,6 @@
 		"@types/vscode": "^1.98.0",
 		"@vscode/test-electron": "^2.4.1"
 	},
-	"author": "naoya7076"
+	"author": "naoya7076",
+	"private": true
 }
