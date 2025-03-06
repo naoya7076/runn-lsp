@@ -1,0 +1,19 @@
+{
+	"name": "runn-language-client",
+	"description": "VSCode part of a language server",
+	"license": "MIT",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.85.0"
+	},
+	"packageManager": "pnpm@10.5.2",
+	"dependencies": {
+		"vscode-languageclient": "9.0.1"
+	},
+	"devDependencies": {
+		"@types/node": "22.13.9",
+		"@types/vscode": "^1.98.0",
+		"@vscode/test-electron": "^2.4.1"
+	},
+	"author": "naoya7076"
+}
