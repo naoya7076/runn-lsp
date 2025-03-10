@@ -10,4 +10,4 @@ serde_yaml = "0.9.34"
 schemars = "0.8.21"
 glob = "0.3.2"
 tower-lsp = "0.20.0"
-tokio = { version = "1.43.0", features = ["macros"] }
+tokio = { version = "1.43.0", features = ["full"] }
