@@ -1,5 +1,6 @@
 mod runbook;
 use tower_lsp::LspService;
+use tower_lsp::Server;
 use tower_lsp::jsonrpc;
 use tower_lsp::lsp_types::*;
 use tower_lsp::{Client, LanguageServer};
@@ -108,9 +109,13 @@ impl Backend {
         }
     }
 }
-fn main() {
+#[tokio::main]
+async fn main() {
+    let stdin = tokio::io::stdin();
+    let stdout = tokio::io::stdout();
+
     // スキーマを出力する例
     let (service, socket) = LspService::build(|client| Backend { client }).finish();
 
-    // Server::new(stdin, stdout, socket).serve(service).await;
+    Server::new(stdin, stdout, socket).serve(service).await;
 }
